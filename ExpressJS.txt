@@ -1,0 +1,73 @@
+Basic Setup:
+
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
+
+Routing: 
+Define routes to handle different HTTP methods and endpoints.
+
+app.get('/', (req, res) => {
+  res.send('GET request to the homepage');
+});
+
+app.post('/', (req, res) => {
+  res.send('POST request to the homepage');
+});
+
+app.put('/user', (req, res) => {
+  res.send('PUT request to /user');
+});
+
+app.delete('/user', (req, res) => {
+  res.send('DELETE request to /user');
+});
+Route Parameters: Capture values specified in the URL.
+
+app.get('/users/:userId', (req, res) => {
+  res.send(`User ID: ${req.params.userId}`);
+});
+
+Bind middleware to the app instance.
+
+app.use((req, res, next) => {
+  console.log('Time:', Date.now());
+  next();
+});
+
+Bind middleware to an instance of express.Router().
+const router = express.Router();
+
+router.use((req, res, next) => {
+  console.log('Request URL:', req.originalUrl);
+  next();
+});
+
+app.use('/user/:id', router);
+
+Serving Static Files: 
+Serve static files such as images, CSS, and JavaScript.
+app.use(express.static('public'));
+
+Database Integration:
+Integrate databases like MongoDB, MySQL, or PostgreSQL using corresponding Node.js libraries or ORMs (Mongoose for MongoDB).
+
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/test', { useNewUrlParser: true, useUnifiedTopology: true });
+
+const Schema = mongoose.Schema;
+const UserSchema = new Schema({
+  name: String,
+  age: Number,
+});
+
+const User = mongoose.model('User', UserSchema);
+
